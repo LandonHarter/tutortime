@@ -26,7 +26,9 @@ export default function LandingHero1() {
                 <Link href='/signin'>
                     <Button color='primary' className='mr-2 text-lg font-medium px-6 h-14'>Get Started</Button>
                 </Link>
-                <Button variant='bordered' className='ml-2 text-lg font-medium px-6 h-14'>Learn More</Button>
+                <Link href='/about'>
+                    <Button variant='bordered' className='ml-2 text-lg font-medium px-6 h-14'>Learn More</Button>
+                </Link>
             </div>
         </>
     );
