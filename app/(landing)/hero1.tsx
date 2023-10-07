@@ -8,7 +8,7 @@ import Balancer from "react-wrap-balancer";
 export default function LandingHero1() {
     return (
         <>
-            <h1 className='w-4/6 text-6xl font-semibold mb-8 text-center'>
+            <h1 className='w-5/6 text-6xl font-semibold mb-8 text-center'>
                 <Balancer>
                     Connect with others who <Typewriter
                         words={['care', 'want to help', 'share your interests']}

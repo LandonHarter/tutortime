@@ -14,7 +14,7 @@ export default function Header() {
                 <nav className='flex items-center h-full mr-10'>
                     <ul className='flex flex-row items-center'>
                         <Link href='/'><li className='font-medium text-xl mx-6'>Dashboard</li></Link>
-                        <Link href='/'><li className='font-medium text-xl mx-6'>About</li></Link>
+                        <Link href='/about'><li className='font-medium text-xl mx-6'>About</li></Link>
                         <Link href='/'><li className='font-medium text-xl mx-6'>Explore</li></Link>
                     </ul>
                 </nav>
