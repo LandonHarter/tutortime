@@ -1,10 +1,21 @@
-import { GoogleAuthProvider, OAuthProvider, UserCredential, getAdditionalUserInfo, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, OAuthProvider, UserCredential, createUserWithEmailAndPassword, getAdditionalUserInfo, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, db } from "./init";
-import User from "../types/user";
-import { Timestamp, collection, doc, getDoc, setDoc } from "firebase/firestore";
+import User, { AccountType } from "../types/user";
+import { Timestamp, collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 
 export async function signInWithEmail(email: string, password: string): Promise<User> {
     const uc = await signInWithEmailAndPassword(auth, email, password);
+    const user = await getUser(uc.user.uid);
+    if (!user) {
+        throw new Error('User not found in database');
+    }
+
+    return user;
+}
+
+export async function signUpWithEmail(email: string, password: string, name: string): Promise<User> {
+    const uc = await createUserWithEmailAndPassword(auth, email, password);
+    await createUserDocument(uc, name);
     const user = await getUser(uc.user.uid);
     if (!user) {
         throw new Error('User not found in database');
@@ -30,25 +41,52 @@ export async function signInWithProvider(providerName: 'google' | 'microsoft'): 
     return user;
 }
 
+const userCache: { [uid: string]: User } = {};
 export async function getUser(uid: string): Promise<User | null> {
+    if (userCache[uid]) {
+        return userCache[uid];
+    }
+
     const userDoc = doc(collection(db, 'users'), uid);
     const userSnap = await getDoc(userDoc);
 
     if (userSnap.exists()) {
-        return userSnap.data() as User;
+        const user = userSnap.data() as User;
+        userCache[uid] = user;
+        return user;
     }
 
     return null;
 }
 
-async function createUserDocument(user: UserCredential) {
+async function createUserDocument(user: UserCredential, name?: string) {
     const userDoc = doc(collection(db, 'users'), user.user.uid);
     const userObj: User = {
         id: user.user.uid,
-        name: user.user.displayName ?? '',
+        name: name ?? (user.user.displayName ?? ''),
         email: user.user.email ?? '',
         picture: user.user.photoURL ?? '',
-        createdAt: Timestamp.now()
+        createdAt: Timestamp.now(),
+        finishedOnboarding: false,
+        accountType: 'student',
     };
     await setDoc(userDoc, userObj);
+}
+
+export async function completeOnboarding(accountType: AccountType, grade?: string, subjects?: string[]) {
+    const userDoc = doc(collection(db, 'users'), auth.currentUser?.uid ?? '');
+    const userObj: Partial<User> = {
+        finishedOnboarding: true,
+        accountType: accountType,
+        grade: grade,
+        subjects: subjects,
+    };
+
+    if (accountType === 'student') {
+        delete userObj.subjects;
+    } else {
+        delete userObj.grade;
+    }
+
+    await updateDoc(userDoc, userObj);
 }

@@ -7,26 +7,32 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { signInWithEmail, signInWithProvider } from '../../../firebase/auth';
+import { signInWithEmail, signInWithProvider, signUpWithEmail } from '../../../firebase/auth';
 import User from '@/app/types/user';
 
-export default function SignInForm() {
+export default function SignUpForm() {
     const router = useRouter();
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
-    async function signIn(provider?: 'google' | 'microsoft') {
+    async function signIn(provider: 'google' | 'microsoft') {
         try {
-            let user: User | null = null;
-            if (!provider) {
-                user = await signInWithEmail(email, password);
-            } else {
-                user = await signInWithProvider(provider);
-            }
-
+            const user = await signInWithProvider(provider);
             toast.success('Successfully logged in!');
             router.push(user.finishedOnboarding ? '/' : '/onboarding');
+        } catch (e: any) {
+            toast.error(e.message);
+        }
+    }
+
+    async function signUp() {
+        try {
+            const user = await signUpWithEmail(email, password, firstName + ' ' + lastName);
+            toast.success('Successfully signed up!');
+            router.push('/onboarding');
         } catch (e: any) {
             toast.error(e.message);
         }
@@ -60,6 +66,14 @@ export default function SignInForm() {
             <form className='w-full flex flex-col items-center' onSubmit={(e) => {
                 e.preventDefault();
             }}>
+                <div className='flex w-3/6'>
+                    <Input type='text' variant='underlined' label='First Name' className='w-1/2 font-medium text-lg mr-2 mb-4' value={firstName} onChange={(e) => {
+                        setFirstName(e.target.value);
+                    }} />
+                    <Input type='text' variant='underlined' label='Last Name' className='w-1/2 font-medium text-lg ml-2 mb-4' value={lastName} onChange={(e) => {
+                        setLastName(e.target.value);
+                    }} />
+                </div>
                 <Input type='email' variant='underlined' label='Email' className='w-3/6 font-medium text-lg mb-4' value={email} onChange={(e) => {
                     setEmail(e.target.value);
                 }} />
@@ -68,10 +82,10 @@ export default function SignInForm() {
                 }} />
                 <Button className='w-3/6 h-12 font-semibold text-lg mb-4' variant='shadow' isLoading={loading} onClick={async () => {
                     setLoading(true);
-                    await signIn();
+                    await signUp();
                     setLoading(false);
-                }}>Sign In</Button>
-                <p className='font-medium'>Don&apos;t have an account? <Link href='/signup' className='text-blue-700'>Sign Up</Link></p>
+                }}>Sign Up</Button>
+                <p className='font-medium'>Already have an account? <Link href='/signin' className='text-blue-700'>Sign In</Link></p>
             </form>
         </>
     );
