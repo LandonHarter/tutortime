@@ -11,6 +11,8 @@ type User = {
     accountType: AccountType;
     grade?: string;
     subjects?: string[];
+    portrait?: string;
+    bio?: string;
 };
 
 export type { User, AccountType };

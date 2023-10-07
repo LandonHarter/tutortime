@@ -12,6 +12,7 @@ import { AccountType } from '@/app/types/user';
 import OnboardingSubject from './subject';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/app/firebase/init';
+import AllSubjects from '@/app/data/subjects';
 
 export default function OnboardingPage() {
     const router = useRouter();
@@ -23,7 +24,6 @@ export default function OnboardingPage() {
     const [accountType, setAccountType] = useState<AccountType | null>(null);
     const [grade, setGrade] = useState<number | null>(null);
     const [subjects, setSubjects] = useState<string[]>([]);
-    const subjectsList: string[] = ['Algebra', 'Biology', 'Calculus', 'Chemistry', 'English', 'Geography/History', 'Geometry', 'Physics'];
 
     const [pushingChanges, setPushingChanges] = useState(false);
 
@@ -144,7 +144,7 @@ export default function OnboardingPage() {
         return (
             <div className='w-full flex flex-col items-center'>
                 <div className='flex flex-row flex-wrap w-3/6 h-fit justify-center mb-14'>
-                    {subjectsList.map((subject: string) => {
+                    {AllSubjects.map((subject: string) => {
                         return <OnboardingSubject key={subject} subjects={subjects} setSubjects={setSubjects} subject={subject} icon={`/images/subjects/${subject.toLowerCase()}.png`} />;
                     })}
                 </div>
