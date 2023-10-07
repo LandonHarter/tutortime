@@ -1,10 +1,11 @@
 'use client'
 
 import { auth } from "@/app/firebase/init";
-import { Avatar, Button, Skeleton } from "@nextui-org/react";
-import { signOut } from "firebase/auth";
+import LogoutSVG from "@/app/svg/logout";
+import { Avatar, Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Skeleton } from "@nextui-org/react";
 import Link from "next/link";
 import { useAuthState } from "react-firebase-hooks/auth";
+import styles from './header.module.scss';
 
 export default function HeaderAccount() {
     const [user, loading, error] = useAuthState(auth);
@@ -22,9 +23,16 @@ export default function HeaderAccount() {
     function userUi() {
         return (
             <>
-                <Avatar icon={null} src={user?.photoURL ?? ''} showFallback className="cursor-pointer" onClick={() => {
-                    signOut(auth);
-                }} />
+                <Dropdown placement='bottom-end'>
+                    <DropdownTrigger>
+                        <Avatar icon={null} src={user?.photoURL ?? ''} showFallback className="cursor-pointer" />
+                    </DropdownTrigger>
+                    <DropdownMenu>
+                        <DropdownItem key='signout' className={`text-danger ${styles.logout}`} startContent={<LogoutSVG className='w-5 h-5 stroke-danger-500 text-danger' />} onClick={() => {
+                            auth.signOut();
+                        }}>Sign Out</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
             </>
         );
     }

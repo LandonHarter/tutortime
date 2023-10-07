@@ -6,6 +6,10 @@
     justify-content: space-between;
 }
 
+.logout:hover svg path {
+    stroke: black;
+}
+
 @media (min-width: 640px) {
     .header {
         max-width: 640px;
