@@ -55,16 +55,13 @@ export default function ExplorePage() {
                                                         <div className='flex items-center overflow-x-hidden'>
                                                             {tutor.subjects?.map((subject, index) => {
                                                                 return (
-                                                                    <Chip variant='faded' key={index} className='m-1 p-4' startContent={<Image src={`/images/subjects/${subject.toLowerCase()}.png`} alt={subject} width={16} height={16} className='ml-[-8px]' />}>
+                                                                    <Chip variant='faded' key={index} className='m-1 p-4' startContent={<Image src={`/images/subjects/${subject.toLowerCase()}.png`} alt={subject} width={16} height={16} className='ml-[2px]' />}>
                                                                         {subject}
                                                                     </Chip>
                                                                 );
                                                             })}
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div className='flex flex-wrap justify-end h-full w-2/6'>
-
                                                 </div>
                                             </Link>
                                         );
