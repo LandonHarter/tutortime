@@ -1,8 +1,6 @@
 import { Toaster } from 'sonner';
-import Header from './components/header/header';
 import './globals.css'
 import basicMetadata from './util/metadata';
-import Loading from './components/loading/loading';
 
 export const metadata = basicMetadata();
 export default function RootLayout({
@@ -13,8 +11,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Toaster richColors position='bottom-right' />
-        <Header />
+        <Toaster richColors position='bottom-right' duration={4000} />
         <main className='w-full flex flex-col items-center'>
           {children}
         </main>

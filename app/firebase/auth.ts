@@ -1,7 +1,17 @@
-import { GoogleAuthProvider, OAuthProvider, UserCredential, getAdditionalUserInfo, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, OAuthProvider, UserCredential, getAdditionalUserInfo, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, db } from "./init";
 import User from "../types/user";
 import { Timestamp, collection, doc, getDoc, setDoc } from "firebase/firestore";
+
+export async function signInWithEmail(email: string, password: string): Promise<User> {
+    const uc = await signInWithEmailAndPassword(auth, email, password);
+    const user = await getUser(uc.user.uid);
+    if (!user) {
+        throw new Error('User not found in database');
+    }
+
+    return user;
+}
 
 export async function signInWithProvider(providerName: 'google' | 'microsoft'): Promise<User> {
     const provider = providerName === 'google' ? new GoogleAuthProvider() : new OAuthProvider('microsoft.com');

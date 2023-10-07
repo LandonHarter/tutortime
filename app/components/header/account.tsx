@@ -1,8 +1,8 @@
 'use client'
 
-import { signInWithProvider } from "@/app/firebase/auth";
 import { auth } from "@/app/firebase/init";
 import { Avatar, Button, Skeleton } from "@nextui-org/react";
+import { signOut } from "firebase/auth";
 import Link from "next/link";
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -22,7 +22,9 @@ export default function HeaderAccount() {
     function userUi() {
         return (
             <>
-                <Avatar icon={null} src={user?.photoURL ?? ''} showFallback className="cursor-pointer" />
+                <Avatar icon={null} src={user?.photoURL ?? ''} showFallback className="cursor-pointer" onClick={() => {
+                    signOut(auth);
+                }} />
             </>
         );
     }
