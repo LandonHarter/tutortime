@@ -1,3 +1,5 @@
+import { Toaster } from 'sonner';
+import Header from './components/header/header';
 import './globals.css'
 import basicMetadata from './util/metadata';
 
@@ -10,7 +12,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <main>
+        <Toaster richColors position='bottom-right' />
+        <Header />
+        <main className='w-full flex flex-col align-center'>
           {children}
         </main>
       </body>
