@@ -14,7 +14,7 @@ export default function RootLayout({
       <body>
         <Toaster richColors position='bottom-right' />
         <Header />
-        <main className='w-full flex flex-col align-center'>
+        <main className='w-full flex flex-col items-center'>
           {children}
         </main>
       </body>

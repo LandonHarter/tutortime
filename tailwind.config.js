@@ -12,7 +12,6 @@ module.exports = {
     extend: {},
   },
   plugins: [nextui({
-    prefix: 'nextui',
     addCommonColors: false,
     defaultExtendTheme: 'light',
     defaultTheme: 'light',
