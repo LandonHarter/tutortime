@@ -9,7 +9,8 @@ import { useState } from "react";
 
 export default function SettingsAccountApps({ user }: { user: User | null }) {
     const [apps, setApps] = useState<Apps>(user?.apps || {
-        zoomEnabled: false
+        zoomEnabled: false,
+        googleMeetEnabled: false
     });
     const [saving, setSaving] = useState(false);
 

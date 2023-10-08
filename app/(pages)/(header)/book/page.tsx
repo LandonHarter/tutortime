@@ -10,7 +10,7 @@ import 'react-datetime-picker/dist/DateTimePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import 'react-clock/dist/Clock.css';
 import { Button } from "@nextui-org/react";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { arrayUnion, collection, doc, setDoc, updateDoc } from "firebase/firestore";
 
 export default function BookPage() {
     const params = useSearchParams();
@@ -29,6 +29,12 @@ export default function BookPage() {
             from: user?.uid,
             to: tutorId,
             date: sessionDate
+        });
+        await updateDoc(doc(collection(db, 'users'), user?.uid), {
+            outgoingRequests: arrayUnion(requestRef.id)
+        });
+        await updateDoc(doc(collection(db, 'users'), tutorId || ''), {
+            incomingRequests: arrayUnion(requestRef.id)
         });
         router.push('/dashboard');
     }
