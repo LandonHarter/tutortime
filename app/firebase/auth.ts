@@ -73,6 +73,7 @@ async function createUserDocument(user: UserCredential, name?: string) {
         createdAt: Timestamp.now(),
         finishedOnboarding: false,
         accountType: 'student',
+        appointments: []
     };
     await setDoc(userDoc, userObj);
 }

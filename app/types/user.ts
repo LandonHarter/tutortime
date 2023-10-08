@@ -18,7 +18,7 @@ type User = {
     apps?: Apps;
     outgoingRequests?: string[];
     incomingRequests?: string[];
-    appointments?: string[];
+    appointments: string[];
 };
 
 export type { User, AccountType };
