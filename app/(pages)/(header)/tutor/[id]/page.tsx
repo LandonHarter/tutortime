@@ -3,6 +3,7 @@
 import { getUser } from "@/app/firebase/auth";
 import User from "@/app/types/user";
 import { formatTimestamp } from "@/app/util/format";
+import { randomColor } from "@/app/util/random";
 import { Avatar, Button, Chip, Spinner } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -28,7 +29,9 @@ export default function TutorPage() {
     }
     return (
         <div className='w-full h-full'>
-            <div className='w-full h-72 bg-red-500' />
+            <div className='w-full h-72' style={{
+                backgroundColor: randomColor()
+            }} />
             <Avatar src={tutor.portrait || '/images/misc/noportrait.jpg'} size='lg' name={tutor.name} className='absolute left-16 top-[360px] scale-[2.25]' />
 
             <div className='flex items-center justify-between'>
