@@ -7,8 +7,10 @@ import User from "@/app/types/user";
 import LoadingTutors from "./loading";
 import { getTutors } from "@/app/data/tutors";
 import Image from "next/image";
+import { Image as NextUIImage } from "@nextui-org/react";
 import Link from "next/link";
 import { Chip } from "@nextui-org/react";
+import styles from './page.module.scss';
 
 export default function ExplorePage() {
     const [filters, setFilters] = useState<Filters>({
@@ -49,7 +51,7 @@ export default function ExplorePage() {
                                         return (
                                             <Link href={`/tutor/${tutor.id}`} key={index} className='flex justify-between items-center w-full py-4 mb-4 border-b-2 border-gray-200'>
                                                 <div className='flex items-center'>
-                                                    <Image src={tutor.portrait || '/images/misc/noportrait.jpg'} alt='portrait' width={256} height={256} className='mr-4 rounded-md w-20 h-20' />
+                                                    <NextUIImage src={tutor.portrait || '/images/misc/noportrait.jpg'} alt='portrait' width={256} height={256} className='mr-4 rounded-md w-20 h-20' style={{ borderRadius: '100%' }} />
                                                     <div className='flex flex-col'>
                                                         <h1 className='font-semibold text-2xl'>{tutor.name}</h1>
                                                         <div className='flex items-center overflow-x-hidden'>
@@ -72,6 +74,21 @@ export default function ExplorePage() {
                     }
                 </div>
             </div>
+
+            <div className={styles.area}>
+                <ul className={styles.circles}>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div >
         </div>
     );
 }
