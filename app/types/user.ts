@@ -16,8 +16,9 @@ type User = {
     portrait?: string;
     bio?: string;
     apps?: Apps;
-    outgoingRequests?: SessionRequest[];
-    incomingRequests?: SessionRequest[];
+    outgoingRequests?: string[];
+    incomingRequests?: string[];
+    appointments?: string[];
 };
 
 export type { User, AccountType };

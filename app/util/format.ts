@@ -19,3 +19,18 @@ export function formatTimestamp(timestamp: Timestamp) {
 
     return `${month} ${day}${daySuffix}, ${year}`;
 }
+
+export function formatGrade(grade: string) {
+    const gradeStr = grade.toString();
+    const lastDigit = gradeStr[gradeStr.length - 1];
+    let gradeSuffix = 'th';
+    if (lastDigit === '1') {
+        gradeSuffix = 'st';
+    } else if (lastDigit === '2') {
+        gradeSuffix = 'nd';
+    } else if (lastDigit === '3') {
+        gradeSuffix = 'rd';
+    }
+
+    return `${grade}${gradeSuffix}`;
+}

@@ -42,8 +42,8 @@ export async function signInWithProvider(providerName: 'google' | 'microsoft'): 
 }
 
 const userCache: { [uid: string]: User } = {};
-export async function getUser(uid: string): Promise<User | null> {
-    if (userCache[uid]) {
+export async function getUser(uid: string, revalidate: boolean = false): Promise<User | null> {
+    if (userCache[uid] && !revalidate) {
         return userCache[uid];
     }
 
@@ -57,6 +57,10 @@ export async function getUser(uid: string): Promise<User | null> {
     }
 
     return null;
+}
+
+export async function updateUser(uid: string) {
+    await getUser(uid, true);
 }
 
 async function createUserDocument(user: UserCredential, name?: string) {
