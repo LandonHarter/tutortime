@@ -1,0 +1,58 @@
+'use client'
+
+import { auth, db } from "@/app/firebase/init";
+import { useRouter, useSearchParams } from "next/navigation"
+import { useEffect, useState } from "react";
+import DateTimePicker from "react-datetime-picker";
+import { useAuthState } from "react-firebase-hooks/auth";
+
+import 'react-datetime-picker/dist/DateTimePicker.css';
+import 'react-calendar/dist/Calendar.css';
+import 'react-clock/dist/Clock.css';
+import { Button } from "@nextui-org/react";
+import { collection, doc, setDoc } from "firebase/firestore";
+
+export default function BookPage() {
+    const params = useSearchParams();
+    const router = useRouter();
+    const tutorId = params.get('tutorId');
+    const [user, loading, error] = useAuthState(auth);
+    const [validated, setValidated] = useState(false);
+    const [sending, setSending] = useState(false);
+
+    type ValuePiece = Date | null;
+    const [sessionDate, setSessionDate] = useState<ValuePiece | [ValuePiece, ValuePiece]>(new Date());
+
+    async function createRequest() {
+        const requestRef = doc(collection(db, 'requests'));
+        await setDoc(requestRef, {
+            from: user?.uid,
+            to: tutorId,
+            date: sessionDate
+        });
+        router.push('/dashboard');
+    }
+
+    useEffect(() => {
+        if (loading) return;
+        if (!loading && !user) {
+            router.push('/signin');
+            return;
+        } else if (user) {
+            setValidated(true);
+        }
+    }, [loading]);
+
+    if (!validated) return;
+    return (
+        <div className='w-full h-full mt-40 flex flex-col items-center'>
+            <h1 className='font-semibold text-4xl mb-8'>Book a Session</h1>
+            <DateTimePicker onChange={setSessionDate} value={sessionDate} className='mb-6' />
+            <Button color='primary' className='font-medium text-xl p-6' isLoading={sending} onPress={async () => {
+                setSending(true);
+                await createRequest();
+                setSending(false);
+            }}>Send Session Request</Button>
+        </div>
+    );
+}

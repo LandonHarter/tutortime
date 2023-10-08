@@ -1,4 +1,5 @@
 import { Timestamp } from "firebase/firestore";
+import Apps from "./apps";
 
 type AccountType = 'student' | 'tutor';
 type User = {
@@ -13,6 +14,7 @@ type User = {
     subjects?: string[];
     portrait?: string;
     bio?: string;
+    apps?: Apps;
 };
 
 export type { User, AccountType };

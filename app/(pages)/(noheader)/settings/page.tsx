@@ -13,6 +13,8 @@ import WarningSVG from "@/app/svg/warning";
 import SettingsAccountDanger from "./pages/account/danger";
 import User from "@/app/types/user";
 import { getUser } from "@/app/firebase/auth";
+import AppSVG from "@/app/svg/app";
+import SettingsAccountApps from "./pages/account/app";
 
 export default function SettingsPage() {
     const router = useRouter();
@@ -22,6 +24,7 @@ export default function SettingsPage() {
     const [selectedItem, setSelectedItem] = useState('account.general');
     const pageUi: { [page: string]: React.ReactNode } = {
         'account.general': <SettingsAccountGeneral user={currentUser} />,
+        'account.apps': <SettingsAccountApps user={currentUser} />,
         'account.danger': <SettingsAccountDanger user={currentUser} />
     };
 
@@ -59,6 +62,7 @@ export default function SettingsPage() {
                 <h1 className='text-xl font-normal text-gray-600 ml-5 mb-4'>Account</h1>
                 <div className='w-11/12 h-0.5 bg-gray-300 ml-5 mb-2' />
                 <SidebarItem title='General' icon={<UserSVG className={styles.sidebar_icon} />} href='account.general' />
+                <SidebarItem title='Session Apps' icon={<AppSVG className={`${styles.sidebar_icon} ${styles.app_icon}`} />} href='account.apps' />
                 <SidebarItem title='Danger Zone' icon={<WarningSVG className={styles.sidebar_icon} />} href='account.danger' />
             </div>
 

@@ -5,6 +5,7 @@ import User from "@/app/types/user";
 import { formatTimestamp } from "@/app/util/format";
 import { Avatar, Button, Chip, Spinner } from "@nextui-org/react";
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react";
 
@@ -37,7 +38,7 @@ export default function TutorPage() {
                 </div>
 
                 <div className='flex flex-col mr-8 mt-2 mb-16'>
-                    <Button className='font-medium text-xl p-6'>Book Session</Button>
+                    <Link href={`/book?tutorId=${tutor.id}`}><Button className='font-medium text-xl p-6'>Book Session</Button></Link>
                 </div>
             </div>
 
