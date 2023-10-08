@@ -11,7 +11,7 @@ import 'react-calendar/dist/Calendar.css';
 import 'react-clock/dist/Clock.css';
 import { Button } from "@nextui-org/react";
 import { arrayUnion, collection, doc, setDoc, updateDoc } from "firebase/firestore";
-import { getUser } from "@/app/firebase/auth";
+import { getUser, updateUser } from "@/app/firebase/auth";
 import { toast } from "sonner";
 
 export default function BookPage() {
@@ -66,6 +66,7 @@ export default function BookPage() {
 
                 setSending(true);
                 await createRequest();
+                await updateUser(user?.uid || '');
                 setSending(false);
             }}>Send Session Request</Button>
         </div>
