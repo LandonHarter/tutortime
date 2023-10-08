@@ -24,7 +24,7 @@ export default function LandingHero1() {
             <p className='text-2xl font-regular text-gray-500 mb-5'>School is hard. Get help on difficult subjects or help others by volunteering.</p>
             <div className='flex justify-center'>
                 <Link href='/signin'>
-                    <Button color='primary' className='mr-2 text-lg font-medium px-6 h-14'>Get Started</Button>
+                    <Button color='primary' className='mr-2 text-lg font-medium px-6 h-14 text-black'>Get Started</Button>
                 </Link>
                 <Link href='/about'>
                     <Button variant='bordered' className='ml-2 text-lg font-medium px-6 h-14'>Learn More</Button>
