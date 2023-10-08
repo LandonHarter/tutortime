@@ -5,7 +5,8 @@ import { getRequests } from "@/app/firebase/request";
 import SessionRequest from "@/app/types/request";
 import User from "@/app/types/user";
 import { formatGrade } from "@/app/util/format";
-import { Avatar } from "@nextui-org/react";
+import { Avatar, Button } from "@nextui-org/react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function DashboardMainOutgoingRequests({ user }: { user: User | null }) {
@@ -62,6 +63,13 @@ export default function DashboardMainOutgoingRequests({ user }: { user: User | n
                     </div>
                 );
             })}
+
+            {requests.length === 0 &&
+                <div className='flex flex-col w-full h-full justify-center items-center'>
+                    <h1 className='font-medium text-4xl'>You have no outgoing requests.</h1>
+                    <Link href='/explore'><Button color='primary' className='mt-4 font-medium text-xl p-6'>Find a Tutor</Button></Link>
+                </div>
+            }
         </div>
     );
 }

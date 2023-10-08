@@ -5,7 +5,7 @@ import { getAppointments } from "@/app/firebase/request";
 import SessionRequest from "@/app/types/request";
 import User from "@/app/types/user";
 import { formatGrade } from "@/app/util/format";
-import { Avatar } from "@nextui-org/react";
+import { Avatar, Button } from "@nextui-org/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -32,7 +32,7 @@ export default function DashboardMainHome({ user }: { user: User | null }) {
 
     if (!user) return;
     return (
-        <div className='p-12 flex flex-col'>
+        <div className='p-12 flex flex-col h-full'>
             <div className='flex items-center'>
                 <Avatar src={user.picture} size='lg' className='mr-4' />
                 <h1 className='font-medium text-4xl'>Welcome back, {user.name}!</h1>
@@ -67,6 +67,14 @@ export default function DashboardMainHome({ user }: { user: User | null }) {
                     </Link>
                 );
             })}
+            {appointments.length === 0 &&
+                <div className='w-full h-full flex flex-col items-center justify-center'>
+                    <h1 className='font-medium text-4xl'>You have no scheduled appointments.</h1>
+                    {user.accountType === 'student' ? <Link href='/explore'><Button color='primary' className='mt-4 font-medium text-xl p-6'>Find a Tutor</Button></Link> :
+                        <p className='text-2xl font-normal mt-4 text-gray-500'>Take a break! Relax!</p>
+                    }
+                </div>
+            }
         </div>
     );
 }

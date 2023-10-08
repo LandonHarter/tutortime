@@ -9,7 +9,7 @@ import SessionRequest from "@/app/types/request";
 import User from "@/app/types/user";
 import { formatGrade } from "@/app/util/format";
 import { Avatar, Button } from "@nextui-org/react";
-import { Timestamp, arrayRemove, arrayUnion, collection, deleteDoc, doc, setDoc, updateDoc } from "firebase/firestore";
+import { arrayRemove, arrayUnion, collection, deleteDoc, doc, setDoc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
 export default function DashboardMainIncomingRequests({ user }: { user: User | null }) {
@@ -85,7 +85,7 @@ export default function DashboardMainIncomingRequests({ user }: { user: User | n
 
     if (!user) return;
     return (
-        <div className='flex flex-col w-full p-6'>
+        <div className='flex flex-col w-full h-full p-6'>
             {requests.map((request, index) => {
                 const from = users[request.from];
 
@@ -127,6 +127,12 @@ export default function DashboardMainIncomingRequests({ user }: { user: User | n
                     </div>
                 );
             })}
+
+            {requests.length === 0 &&
+                <div className='flex flex-col w-full h-full justify-center items-center'>
+                    <h1 className='font-medium text-4xl'>You have no incoming requests.</h1>
+                </div>
+            }
         </div>
     );
 }
