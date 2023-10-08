@@ -6,6 +6,7 @@ import User from "@/app/types/user";
 import { Accordion, AccordionItem, Button, Checkbox, Input } from "@nextui-org/react";
 import { collection, doc, updateDoc } from "firebase/firestore";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function SettingsAccountApps({ user }: { user: User | null }) {
     const [apps, setApps] = useState<Apps>(user?.apps || {
@@ -19,6 +20,7 @@ export default function SettingsAccountApps({ user }: { user: User | null }) {
         await updateDoc(userRef, {
             apps: apps
         });
+        toast.success('Successfully saved your session apps!');
     }
 
     if (!user) return;
@@ -83,8 +85,7 @@ export default function SettingsAccountApps({ user }: { user: User | null }) {
                                 appsCopy.googleMeetEnabled = e;
                                 if (e) {
                                     appsCopy.googleMeet = {
-                                        googleMeetLink: '',
-                                        code: ''
+                                        googleMeetLink: ''
                                     };
                                 }
 
@@ -96,13 +97,6 @@ export default function SettingsAccountApps({ user }: { user: User | null }) {
                                     ...apps
                                 };
                                 appsCopy.googleMeet.googleMeetLink = e.target.value;
-                                setApps(appsCopy);
-                            }} />
-                            <Input label='Google Meet Code' placeholder='xxx-xxxx-xxx' className='mb-4' disabled={!apps.googleMeetEnabled} classNames={{ base: apps.googleMeetEnabled ? '' : 'opacity-70' }} value={apps.googleMeet?.code || ''} onChange={(e) => {
-                                const appsCopy: any = {
-                                    ...apps
-                                };
-                                appsCopy.googleMeet.code = e.target.value;
                                 setApps(appsCopy);
                             }} />
                         </AccordionItem>

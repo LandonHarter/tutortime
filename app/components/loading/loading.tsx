@@ -2,18 +2,8 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import styles from './loading.module.scss';
-import { useEffect, useState } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '@/app/firebase/init';
 
-export default function Loading() {
-    const [visible, setVisible] = useState(false);
-    const [user, loading, error] = useAuthState(auth);
-
-    useEffect(() => {
-        setVisible(loading);
-    }, [loading]);
-
+export default function Loading({ visible }: { visible: boolean }) {
     return (
         <AnimatePresence mode='wait'>
             <motion.div initial={{ opacity: visible ? 1 : 0 }} animate={{ opacity: visible ? 1 : 0, pointerEvents: visible ? 'all' : 'none' }} transition={{ duration: 0.1 }} className='fixed w-screen h-screen z-50 flex justify-center items-center' style={{

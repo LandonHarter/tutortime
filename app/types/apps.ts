@@ -6,7 +6,6 @@ type Zoom = {
 
 type GoogleMeet = {
     googleMeetLink: string;
-    code: string;
 };
 
 type Apps = {
