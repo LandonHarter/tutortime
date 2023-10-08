@@ -1,7 +1,7 @@
 import { GoogleAuthProvider, OAuthProvider, UserCredential, createUserWithEmailAndPassword, getAdditionalUserInfo, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, db } from "./init";
 import User, { AccountType } from "../types/user";
-import { Timestamp, collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { Timestamp, collection, deleteDoc, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 
 export async function signInWithEmail(email: string, password: string): Promise<User> {
     const uc = await signInWithEmailAndPassword(auth, email, password);
@@ -89,4 +89,16 @@ export async function completeOnboarding(accountType: AccountType, grade?: strin
     }
 
     await updateDoc(userDoc, userObj);
+}
+
+export async function deleteAccount() {
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+        return;
+    }
+
+    const userDoc = doc(collection(db, 'users'), currentUser.uid);
+    await deleteDoc(userDoc);
+    await currentUser.delete();
+    delete userCache[currentUser.uid];
 }

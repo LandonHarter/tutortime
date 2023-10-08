@@ -22,7 +22,7 @@ export default function SettingsPage() {
     const [selectedItem, setSelectedItem] = useState('account.general');
     const pageUi: { [page: string]: React.ReactNode } = {
         'account.general': <SettingsAccountGeneral user={currentUser} />,
-        'account.danger': <SettingsAccountDanger />
+        'account.danger': <SettingsAccountDanger user={currentUser} />
     };
 
     useEffect(() => {
